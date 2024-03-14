@@ -110,11 +110,11 @@
 
             // Variables for Table 2
             let hours2 = inputHours;
-            let minutes2 = inputMinutes + 43;
+            let minutes2 = inputMinutes + 45;
 
             // Variables for Table 3
             let hours3 = inputHours;
-            let minutes3 = inputMinutes + 63; // Table 3 starts with an addition of 60 minutes
+            let minutes3 = inputMinutes + 65; // Table 3 starts with an addition of 60 minutes
 
             // Adjust for initial addition
             if (minutes2 >= 60) {
@@ -154,7 +154,7 @@
             // Calculation for Table 3
             addRowToTable(1, hours3, minutes3, table3Body); // First row for Table 3
             for (let i = 2; i <= iterations; i++) {
-                minutes3 += 80; // Add 80 minutes for each subsequent iteration from the 2nd row
+                minutes3 += 83; // Add 80 minutes for each subsequent iteration from the 2nd row
                 if (minutes3 >= 60) {
                     hours3 += Math.floor(minutes3 / 60);
                     minutes3 %= 60;
