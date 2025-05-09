@@ -2,140 +2,52 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>bet Calculator By Super</title>
+  <title>ส่งข้อมูลไป Google Sheets</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f0f4f8;
-      padding: 30px;
+      padding: 40px;
       color: #333;
     }
-    body.dark {
-      background: #121212;
-      color: #eee;
-    }
-    body.dark table, body.dark .record {
-      background: #1e1e1e;
-      border-color: #444;
-    }
-    body.dark th {
-      background-color: #333;
-      color: #fff;
-    }
-    body.dark td {
-      background: #1e1e1e;
-      color: #eee;
-    }
-    body.dark input, body.dark select {
-      background: #333;
-      color: #fff;
-      border: 1px solid #777;
-    }
-    body.dark .button-group button {
-      background: #2196f3;
-    }
-    body.dark .profile-buttons button.active {
-      background: #2196f3;
-    }
-
     h2 {
       text-align: center;
       color: #0077b6;
     }
-    .profile-buttons {
-      text-align: center;
-      margin: 10px 0 20px;
-    }
-    .profile-buttons button {
-      padding: 8px 16px;
-      margin: 0 4px;
-      border: none;
-      border-radius: 50%;
-      font-size: 16px;
-      cursor: pointer;
-      background: #e0e0e0;
-      color: #333;
-      transition: 0.3s;
-    }
-    .profile-buttons button.active {
-      background: #00b4d8;
-      color: white;
-      font-weight: bold;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
       background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+      padding: 24px;
       border-radius: 12px;
-      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    th, td {
-      border: 1px solid #ccc;
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input {
       padding: 10px;
-      text-align: center;
-    }
-    thead {
-      background-color: #caf0f8;
-    }
-    input, select {
-      padding: 6px;
-      width: 90%;
+      width: 100%;
       border-radius: 6px;
-      border: 1px solid #aaa;
-    }
-    .bonus-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .bonus-value, .diff-note {
-      font-size: 0.85em;
-      margin-top: 4px;
-      color: #007700;
-    }
-    .diff-note {
-      color: #d32f2f;
-    }
-    .button-group {
-      text-align: center;
-      margin: 20px 0;
+      border: 1px solid #ccc;
+      margin-top: 6px;
+      box-sizing: border-box;
     }
     button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
-      background: #00b4d8;
+      padding: 12px 20px;
+      margin-top: 20px;
+      background-color: #00b4d8;
       color: white;
+      border: none;
+      border-radius: 8px;
       font-size: 16px;
-      margin: 5px;
       cursor: pointer;
+      width: 100%;
     }
     button:hover {
-      background: #0077b6;
-    }
-    #totalAllFund, #recommendation {
-      font-weight: bold;
-      text-align: center;
-      margin: 10px 0;
-    }
-    #savedRecords {
-      margin-top: 30px;
-      border-top: 2px solid #90caf9;
-      padding-top: 20px;
-    }
-    .record {
-      background: #ffffff;
-      border: 1px solid #ccc;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .record h4 {
-      margin: 0 0 6px;
-      color: #0077b6;
+      background-color: #0077b6;
     }
   </style>
 </head>
@@ -143,270 +55,53 @@
 
 <h2>bet Calculator By Super</h2>
 
-<div class="button-group">
-  <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
-</div>
+<div class="container">
+  <label for="name">ชื่อเว็บ</label>
+  <input type="text" id="name" placeholder="เช่น sbobet" />
 
-<div class="profile-buttons">
-  <button type="button" onclick="setProfile('1')" id="btnP1">1</button>
-  <button type="button" onclick="setProfile('2')" id="btnP2">2</button>
-  <button type="button" onclick="setProfile('3')" id="btnP3">3</button>
-</div>
+  <label for="fund">เงินทุน</label>
+  <input type="number" id="fund" placeholder="เช่น 10000" />
 
-<div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
-  โปรไฟล์ที่: 1
-</div>
+  <label for="odd">ค่าน้ำ</label>
+  <input type="number" step="0.01" id="odd" placeholder="เช่น 1.95" />
 
-<form onsubmit="event.preventDefault(); calculate();">
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>ชื่อ</th>
-        <th>เงินทุน</th>
-        <th>โบนัส</th>
-        <th>ค่าน้ำ</th>
-        <th>ยอดเงินหลังแทง</th>
-        <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
-        <th>กำไร</th>
-        <th>กำไรหลังเฉลี่ย</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>❶</td>
-        <td><input id="name1" oninput="saveForm()" /></td>
-        <td><input type="number" id="fund1" oninput="saveForm()" /></td>
-        <td class="bonus-group">
-          <select id="bonus1" onchange="saveForm()">
-            <option value="0">ไม่มีโบนัส</option>
-            <option value="0.03">3%</option>
-            <option value="0.03inc">3% (รวมแทง)</option>
-            <option value="-0.05">ยอดเสีย 5%</option>
-            <option value="-0.5">ยอดเสีย 50%</option>
-          </select>
-          <div class="bonus-value" id="bonus1_value">-</div>
-        </td>
-        <td><input type="number" id="odd1" oninput="saveForm()" />
-          <div class="diff-note" id="diffNote1">-</div>
-        </td>
-        <td><span id="result1_afterbet">-</span></td>
-        <td><span id="result1_total">-</span></td>
-        <td><span id="profit1">-</span></td>
-        <td><span id="profit1_balanced">-</span></td>
-      </tr>
-      <tr>
-        <td>❷</td>
-        <td><input id="name2" oninput="saveForm()" /></td>
-        <td><input type="number" id="fund2" oninput="saveForm()" /></td>
-        <td class="bonus-group">
-          <select id="bonus2" onchange="saveForm()">
-            <option value="0">ไม่มีโบนัส</option>
-            <option value="0.03">3%</option>
-            <option value="0.03inc">3% (รวมแทง)</option>
-            <option value="-0.05">ยอดเสีย 5%</option>
-            <option value="-0.5">ยอดเสีย 50%</option>
-          </select>
-          <div class="bonus-value" id="bonus2_value">-</div>
-        </td>
-        <td><input type="number" id="odd2" oninput="saveForm()" />
-          <div class="diff-note" id="diffNote2">-</div>
-        </td>
-        <td><span id="result2_afterbet">-</span></td>
-        <td><span id="result2_total">-</span></td>
-        <td><span id="profit2">-</span></td>
-        <td><span id="profit2_balanced">-</span></td>
-      </tr>
-    </tbody>
-  </table>
-</form>
+  <label for="profit">กำไร</label>
+  <input type="number" id="profit" placeholder="เช่น 9500" />
 
-<div id="totalAllFund">รวมเงินทุนทั้งหมด: -</div>
-
-<div class="button-group">
-  <button onclick="calculate()">คำนวณ</button>
-  <button onclick="suggestBalance()">เฉลี่ยกำไร</button>
-  <button onclick="saveRecord()">บันทึกข้อมูล</button>
-  <button onclick="clearForm()">Clear</button>
-  <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึกทั้งหมด</button>
-</div>
-
-<div id="recommendation">-</div>
-
-<div id="savedRecords">
-  <h3>📂 ข้อมูลที่บันทึกไว้</h3>
-  <div id="recordsList"></div>
+  <button onclick="submitToSheet()">บันทึกลง Google Sheets</button>
 </div>
 
 <script>
-let currentProfile = "1";
+function saveToGoogleSheet(data) {
+  fetch("https://script.google.com/macros/s/AKfycbxvTLFlvDU89VBSyDbGwH9e4Op-7qUDXfQ9CSCCqzrU4eAXKJdgJWFar0q2j7gaSxg-2A/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(res => alert("✅ บันทึกสำเร็จ: " + res))
+  .catch(err => alert("❌ บันทึกไม่สำเร็จ: " + err));
+}
 
-function toggleDarkMode() {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
-}
-function setProfile(id) {
-  currentProfile = id;
-  document.getElementById("profileTitle").textContent = "โปรไฟล์ที่: " + id;
-  ["btnP1", "btnP2", "btnP3"].forEach(btn => document.getElementById(btn).classList.remove("active"));
-  document.getElementById("btnP" + id).classList.add("active");
-  loadForm();
-  renderRecords();
-}
-function parseBonusRate(val) {
-  return val === "0.03inc" ? 0.03 : parseFloat(val);
-}
-function isBonusIncluded(val) {
-  return val === "0.03inc";
-}
-function saveForm() {
-  const form = {
-    name1: name1.value, name2: name2.value,
-    fund1: fund1.value, fund2: fund2.value,
-    odd1: odd1.value, odd2: odd2.value,
-    bonus1: bonus1.value, bonus2: bonus2.value
+function submitToSheet() {
+  const data = {
+    name: document.getElementById("name").value.trim(),
+    fund: document.getElementById("fund").value.trim(),
+    odd: document.getElementById("odd").value.trim(),
+    profit: document.getElementById("profit").value.trim()
   };
-  localStorage.setItem("form_profile_" + currentProfile, JSON.stringify(form));
-}
-function loadForm() {
-  const saved = JSON.parse(localStorage.getItem("form_profile_" + currentProfile));
-  if (!saved) return;
-  for (let key in saved) {
-    const el = document.getElementById(key);
-    if (el) el.value = saved[key];
+
+  // ตรวจสอบว่ากรอกครบหรือไม่
+  if (!data.name || !data.fund || !data.odd || !data.profit) {
+    alert("⚠️ กรุณากรอกข้อมูลให้ครบก่อนบันทึก");
+    return;
   }
-  updateBonusDisplay();
+
+  saveToGoogleSheet(data);
 }
-function updateBonusDisplay() {
-  const f1 = parseFloat(fund1.value) || 0;
-  const f2 = parseFloat(fund2.value) || 0;
-  const r1 = parseBonusRate(bonus1.value);
-  const r2 = parseBonusRate(bonus2.value);
-  const cap1 = bonus1.value === "-0.5" ? 2888 : Infinity;
-  const cap2 = bonus2.value === "-0.5" ? 2888 : Infinity;
-  const b1 = isBonusIncluded(bonus1.value) ? f1 * r1 : Math.min(f1 * Math.abs(r1), cap1);
-  const b2 = isBonusIncluded(bonus2.value) ? f2 * r2 : Math.min(f2 * Math.abs(r2), cap2);
-  bonus1_value.textContent = Math.floor(b1);
-  bonus2_value.textContent = Math.floor(b2);
-  totalAllFund.textContent = "รวมเงินทุนทั้งหมด: " + Math.floor(f1 + f2) + " บาท";
-}
-function calculate(f1adj = 0, f2adj = 0, balanced = false) {
-  const f1 = (parseFloat(fund1.value) || 0) + f1adj;
-  const f2 = (parseFloat(fund2.value) || 0) + f2adj;
-  const o1 = parseFloat(odd1.value) || 0;
-  const o2 = parseFloat(odd2.value) || 0;
-  const r1 = parseBonusRate(bonus1.value);
-  const r2 = parseBonusRate(bonus2.value);
-  const isL1 = bonus1.value.startsWith("-");
-  const isL2 = bonus2.value.startsWith("-");
-  const isI1 = isBonusIncluded(bonus1.value);
-  const isI2 = isBonusIncluded(bonus2.value);
-  const b1 = isI1 ? f1 * r1 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity);
-  const b2 = isI2 ? f2 * r2 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity);
-  const d1 = o1 < 1 ? Math.abs(Math.floor(f1 * o1 - f1)) : 0;
-  const d2 = o2 < 1 ? Math.abs(Math.floor(f2 * o2 - f2)) : 0;
-  const a1 = o1 < 1 ? f1 * 2 : isI1 ? (f1 + b1) * o1 : f1 * o1;
-  const a2 = o2 < 1 ? f2 * 2 : isI2 ? (f2 + b2) * o2 : f2 * o2;
-  const bw1 = (isL1 || isI1
-    ? (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))
-    : b1 + (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))) + d2;
-  const bw2 = (isL2 || isI2
-    ? (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))
-    : b2 + (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))) + d1;
-  const t1 = a1 + bw1;
-  const t2 = a2 + bw2;
-  const tf = f1 + f2;
-  const p1 = t1 - tf;
-  const p2 = t2 - tf;
-  result1_afterbet.textContent = Math.floor(a1);
-  result2_afterbet.textContent = Math.floor(a2);
-  result1_total.textContent = Math.floor(t1);
-  result2_total.textContent = Math.floor(t2);
-  profit1.textContent = Math.floor(p1);
-  profit2.textContent = Math.floor(p2);
-  profit1_balanced.textContent = balanced ? Math.floor(p1) : "-";
-  profit2_balanced.textContent = balanced ? Math.floor(p2) : "-";
-  diffNote1.textContent = o1 < 1 ? `ส่วนต่างน้ำติดลบ ${d1} บาท` : "";
-  diffNote2.textContent = o2 < 1 ? `ส่วนต่างน้ำติดลบ ${d2} บาท` : "";
-  updateBonusDisplay();
-  saveForm();
-}
-function suggestBalance() {
-  const p1 = parseFloat(profit1.textContent) || 0;
-  const p2 = parseFloat(profit2.textContent) || 0;
-  const move = Math.abs(p1 - p2) / 2;
-  calculate(p1 < p2 ? move : 0, p2 < p1 ? move : 0, true);
-  recommendation.textContent = `ควรเพิ่มเงินแทงที่ "${p1 > p2 ? name2.value || "ฝั่ง 2" : name1.value || "ฝั่ง 1"}" อีกประมาณ ${Math.floor(move)} บาท เพื่อให้กำไรใกล้เคียงกัน`;
-}
-function clearForm() {
-  fund1.value = "";
-  fund2.value = "";
-  odd1.value = "";
-  odd2.value = "";
-  bonus1.value = "0";
-  bonus2.value = "0";
-  [
-    "result1_afterbet", "result2_afterbet",
-    "result1_total", "result2_total",
-    "profit1", "profit2",
-    "profit1_balanced", "profit2_balanced",
-    "bonus1_value", "bonus2_value",
-    "totalAllFund", "recommendation",
-    "diffNote1", "diffNote2"
-  ].forEach(id => document.getElementById(id).textContent = "-");
-  saveForm();
-}
-function saveRecord() {
-  const record = {
-    name1: name1.value || "ฝั่ง 1",
-    name2: name2.value || "ฝั่ง 2",
-    fund1: fund1.value || "0",
-    fund2: fund2.value || "0",
-    odd1: odd1.value || "0",
-    odd2: odd2.value || "0",
-    profit1: profit1.textContent,
-    profit2: profit2.textContent,
-    pBal1: profit1_balanced.textContent,
-    pBal2: profit2_balanced.textContent,
-    timestamp: new Date().toLocaleString("th-TH")
-  };
-  const key = "savedRecords_" + currentProfile;
-  const records = JSON.parse(localStorage.getItem(key) || "[]");
-  records.unshift(record);
-  localStorage.setItem(key, JSON.stringify(records));
-  renderRecords();
-}
-function renderRecords() {
-  const key = "savedRecords_" + currentProfile;
-  const records = JSON.parse(localStorage.getItem(key) || "[]");
-  recordsList.innerHTML = "";
-  records.forEach((r, i) => {
-    const html = `
-      <div class="record">
-        <h4>📌 บันทึก: ${r.timestamp} | ${r.name1} vs ${r.name2}</h4>
-        <div><b>${r.name1}</b>: ทุน ${r.fund1} | ค่าน้ำ ${r.odd1} | กำไร ${r.profit1} | เฉลี่ย ${r.pBal1}</div>
-        <div><b>${r.name2}</b>: ทุน ${r.fund2} | ค่าน้ำ ${r.odd2} | กำไร ${r.profit2} | เฉลี่ย ${r.pBal2}</div>
-        <button onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
-      </div>`;
-    recordsList.insertAdjacentHTML("beforeend", html);
-  });
-}
-function deleteRecord(index) {
-  const key = "savedRecords_" + currentProfile;
-  let records = JSON.parse(localStorage.getItem(key) || "[]");
-  records.splice(index, 1);
-  localStorage.setItem(key, JSON.stringify(records));
-  renderRecords();
-}
-function clearSavedRecords() {
-  if (!confirm("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลที่บันทึกทั้งหมดของโปรไฟล์นี้?")) return;
-  localStorage.removeItem("savedRecords_" + currentProfile);
-  renderRecords();
-}
-window.onload = () => {
-  if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
-  setProfile("1");
-};
 </script>
+
 </body>
 </html>
