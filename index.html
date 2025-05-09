@@ -1,233 +1,412 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-    <title>JAAB SAMURAI</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .container {
-            width: 30%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .input-group {
-            text-align: center;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        label {
-            margin-bottom: 5px;
-        }
-        input[type="number"] {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            outline: none;
-            margin-bottom: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .table-container {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-size: 16px;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        /* Additional styles for table row numbering */
-        .table-row-number {
-            width: 30px;
-            text-align: center;
-            font-weight: bold;
-        }
-    </style>
-    <script>
-        function calculateBothTables() {
-            let inputHours = parseInt(document.getElementById("hours").value);
-            let inputMinutes = parseInt(document.getElementById("minutes").value);
-            let table1Body = document.getElementById("table1Body");
-            let table2Body = document.getElementById("table2Body");
-            let table3Body = document.getElementById("table3Body");
-            table1Body.innerHTML = ""; 
-            table2Body.innerHTML = ""; 
-            table3Body.innerHTML = ""; 
+  <meta charset="UTF-8" />
+  <title>bet Calculator By Super</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      padding: 30px;
+      color: #333;
+    }
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    body.dark table, body.dark .record {
+      background: #1e1e1e;
+      border-color: #444;
+    }
+    body.dark th {
+      background-color: #333;
+      color: #fff;
+    }
+    body.dark td {
+      background: #1e1e1e;
+      color: #eee;
+    }
+    body.dark input, body.dark select {
+      background: #333;
+      color: #fff;
+      border: 1px solid #777;
+    }
+    body.dark .button-group button {
+      background: #2196f3;
+    }
+    body.dark .profile-buttons button.active {
+      background: #2196f3;
+    }
 
-            // Determine the number of iterations for table display based on input hours
-            let iterations;
-            if(inputHours >= 0 && inputHours <= 5) {
-                iterations = 5;
-            } else if(inputHours >= 6 && inputHours <= 17) {
-                iterations = 10;
-            } else if(inputHours >= 18 && inputHours <= 23) {
-                iterations = 5;
-            }
-
-            // Variables for Table 1
-            let hours1 = inputHours;
-            let minutes1 = inputMinutes;
-
-            // Variables for Table 2
-            let hours2 = inputHours;
-            let minutes2 = inputMinutes + 45;
-
-            // Variables for Table 3
-            let hours3 = inputHours;
-            let minutes3 = inputMinutes + 65; // Table 3 starts with an addition of 60 minutes
-
-            // Adjust for initial addition
-            if (minutes2 >= 60) {
-                hours2 += Math.floor(minutes2 / 60);
-                minutes2 %= 60;
-            }
-            if (minutes3 >= 60) {
-                hours3 += Math.floor(minutes3 / 60);
-                minutes3 %= 60;
-            }
-
-            hours2 = hours2 % 24;
-            hours3 = hours3 % 24;
-
-            // Calculation for Table 1
-            for (let i = 1; i <= iterations; i++) {
-                minutes1 += 67;
-                if (minutes1 >= 60) {
-                    hours1 += Math.floor(minutes1 / 60);
-                    minutes1 %= 60;
-                }
-                hours1 = hours1 % 24;
-                addRowToTable(i, hours1, minutes1, table1Body);
-            }
-
-            // Calculation for Table 2
-            for (let i = 1; i <= iterations; i++) {
-                minutes2 += (i == 1 ? 0 : 60);
-                if (minutes2 >= 60) {
-                    hours2 += Math.floor(minutes2 / 60);
-                    minutes2 %= 60;
-                }
-                hours2 = hours2 % 24;
-                addRowToTable(i, hours2, minutes2, table2Body);
-            }
-
-            // Calculation for Table 3
-            addRowToTable(1, hours3, minutes3, table3Body); // First row for Table 3
-            for (let i = 2; i <= iterations; i++) {
-                minutes3 += 83; // Add 80 minutes for each subsequent iteration from the 2nd row
-                if (minutes3 >= 60) {
-                    hours3 += Math.floor(minutes3 / 60);
-                    minutes3 %= 60;
-                }
-                hours3 = hours3 % 24;
-                addRowToTable(i, hours3, minutes3, table3Body);
-            }
-        }
-
-        function addRowToTable(iteration, hours, minutes, tableBody) {
-            let row = tableBody.insertRow();
-            let cell1 = row.insertCell(0);
-            let cell2 = row.insertCell(1);
-            cell1.className = "table-row-number"; // Add class for table row numbering
-            cell1.innerHTML = iteration;
-            cell2.innerHTML = hours + " ชั่วโมง " + minutes + " นาที";
-        }
-    </script>
+    h2 {
+      text-align: center;
+      color: #0077b6;
+    }
+    .profile-buttons {
+      text-align: center;
+      margin: 10px 0 20px;
+    }
+    .profile-buttons button {
+      padding: 8px 16px;
+      margin: 0 4px;
+      border: none;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      background: #e0e0e0;
+      color: #333;
+      transition: 0.3s;
+    }
+    .profile-buttons button.active {
+      background: #00b4d8;
+      color: white;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    thead {
+      background-color: #caf0f8;
+    }
+    input, select {
+      padding: 6px;
+      width: 90%;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    .bonus-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .bonus-value, .diff-note {
+      font-size: 0.85em;
+      margin-top: 4px;
+      color: #007700;
+    }
+    .diff-note {
+      color: #d32f2f;
+    }
+    .button-group {
+      text-align: center;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #00b4d8;
+      color: white;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    #totalAllFund, #recommendation {
+      font-weight: bold;
+      text-align: center;
+      margin: 10px 0;
+    }
+    #savedRecords {
+      margin-top: 30px;
+      border-top: 2px solid #90caf9;
+      padding-top: 20px;
+    }
+    .record {
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .record h4 {
+      margin: 0 0 6px;
+      color: #0077b6;
+    }
+  </style>
 </head>
 <body>
-    <h2>กรอกเวลา</h2>
-    <div class="container">
-        <div class="input-group">
-            <label for="hours">ชั่วโมง:</label>
-            <input type="number" id="hours" min="0" value="0">
-        </div>
-        <div class="input-group">
-            <label for="minutes">นาที:</label>
-            <input type="number" id="minutes" min="0" value="0">
-        </div>
-        <button onclick="calculateBothTables()">คำนวณ</button>
-    </div>
-    
-    <!-- Table 1 -->
-    <div class="table-container">
-        <h3>เวลากล่องพิเศษ</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th class="table-row-number">ลำดับ</th>
-                    <th>เวลา</th>
-                </tr>
-            </thead>
-            <tbody id="table1Body"></tbody>
-        </table>
-    </div>
 
-    <!-- Table 2 -->
-    <div class="table-container">
-        <h3>เวลา Airdrop เล็ก T1-T2</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th class="table-row-number">ลำดับ</th>
-                    <th>เวลา</th>
-                </tr>
-            </thead>
-            <tbody id="table2Body"></tbody>
-        </table>
-    </div>
+<h2>bet Calculator By Super</h2>
 
-    <!-- Table 3 -->
-    <div class="table-container">
-        <h3>เวลา Airdrop แก๊งค์รวม </h3>
-        <table>
-            <thead>
-                <tr>
-                    <th class="table-row-number">ลำดับ</th>
-                    <th>เวลา</th>
-                </tr>
-            </thead>
-            <tbody id="table3Body"></tbody>
-        </table>
-    </div>
+<div class="button-group">
+  <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
+</div>
+
+<div class="profile-buttons">
+  <button type="button" onclick="setProfile('1')" id="btnP1">1</button>
+  <button type="button" onclick="setProfile('2')" id="btnP2">2</button>
+  <button type="button" onclick="setProfile('3')" id="btnP3">3</button>
+</div>
+
+<div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
+  โปรไฟล์ที่: 1
+</div>
+
+<form onsubmit="event.preventDefault(); calculate();">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ชื่อ</th>
+        <th>เงินทุน</th>
+        <th>โบนัส</th>
+        <th>ค่าน้ำ</th>
+        <th>ยอดเงินหลังแทง</th>
+        <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
+        <th>กำไร</th>
+        <th>กำไรหลังเฉลี่ย</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>❶</td>
+        <td><input id="name1" oninput="saveForm()" /></td>
+        <td><input type="number" id="fund1" oninput="saveForm()" /></td>
+        <td class="bonus-group">
+          <select id="bonus1" onchange="saveForm()">
+            <option value="0">ไม่มีโบนัส</option>
+            <option value="0.03">3%</option>
+            <option value="0.03inc">3% (รวมแทง)</option>
+            <option value="-0.05">ยอดเสีย 5%</option>
+            <option value="-0.5">ยอดเสีย 50%</option>
+          </select>
+          <div class="bonus-value" id="bonus1_value">-</div>
+        </td>
+        <td><input type="number" id="odd1" oninput="saveForm()" />
+          <div class="diff-note" id="diffNote1">-</div>
+        </td>
+        <td><span id="result1_afterbet">-</span></td>
+        <td><span id="result1_total">-</span></td>
+        <td><span id="profit1">-</span></td>
+        <td><span id="profit1_balanced">-</span></td>
+      </tr>
+      <tr>
+        <td>❷</td>
+        <td><input id="name2" oninput="saveForm()" /></td>
+        <td><input type="number" id="fund2" oninput="saveForm()" /></td>
+        <td class="bonus-group">
+          <select id="bonus2" onchange="saveForm()">
+            <option value="0">ไม่มีโบนัส</option>
+            <option value="0.03">3%</option>
+            <option value="0.03inc">3% (รวมแทง)</option>
+            <option value="-0.05">ยอดเสีย 5%</option>
+            <option value="-0.5">ยอดเสีย 50%</option>
+          </select>
+          <div class="bonus-value" id="bonus2_value">-</div>
+        </td>
+        <td><input type="number" id="odd2" oninput="saveForm()" />
+          <div class="diff-note" id="diffNote2">-</div>
+        </td>
+        <td><span id="result2_afterbet">-</span></td>
+        <td><span id="result2_total">-</span></td>
+        <td><span id="profit2">-</span></td>
+        <td><span id="profit2_balanced">-</span></td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+<div id="totalAllFund">รวมเงินทุนทั้งหมด: -</div>
+
+<div class="button-group">
+  <button onclick="calculate()">คำนวณ</button>
+  <button onclick="suggestBalance()">เฉลี่ยกำไร</button>
+  <button onclick="saveRecord()">บันทึกข้อมูล</button>
+  <button onclick="clearForm()">Clear</button>
+  <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึกทั้งหมด</button>
+</div>
+
+<div id="recommendation">-</div>
+
+<div id="savedRecords">
+  <h3>📂 ข้อมูลที่บันทึกไว้</h3>
+  <div id="recordsList"></div>
+</div>
+
+<script>
+let currentProfile = "1";
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+}
+function setProfile(id) {
+  currentProfile = id;
+  document.getElementById("profileTitle").textContent = "โปรไฟล์ที่: " + id;
+  ["btnP1", "btnP2", "btnP3"].forEach(btn => document.getElementById(btn).classList.remove("active"));
+  document.getElementById("btnP" + id).classList.add("active");
+  loadForm();
+  renderRecords();
+}
+function parseBonusRate(val) {
+  return val === "0.03inc" ? 0.03 : parseFloat(val);
+}
+function isBonusIncluded(val) {
+  return val === "0.03inc";
+}
+function saveForm() {
+  const form = {
+    name1: name1.value, name2: name2.value,
+    fund1: fund1.value, fund2: fund2.value,
+    odd1: odd1.value, odd2: odd2.value,
+    bonus1: bonus1.value, bonus2: bonus2.value
+  };
+  localStorage.setItem("form_profile_" + currentProfile, JSON.stringify(form));
+}
+function loadForm() {
+  const saved = JSON.parse(localStorage.getItem("form_profile_" + currentProfile));
+  if (!saved) return;
+  for (let key in saved) {
+    const el = document.getElementById(key);
+    if (el) el.value = saved[key];
+  }
+  updateBonusDisplay();
+}
+function updateBonusDisplay() {
+  const f1 = parseFloat(fund1.value) || 0;
+  const f2 = parseFloat(fund2.value) || 0;
+  const r1 = parseBonusRate(bonus1.value);
+  const r2 = parseBonusRate(bonus2.value);
+  const cap1 = bonus1.value === "-0.5" ? 2888 : Infinity;
+  const cap2 = bonus2.value === "-0.5" ? 2888 : Infinity;
+  const b1 = isBonusIncluded(bonus1.value) ? f1 * r1 : Math.min(f1 * Math.abs(r1), cap1);
+  const b2 = isBonusIncluded(bonus2.value) ? f2 * r2 : Math.min(f2 * Math.abs(r2), cap2);
+  bonus1_value.textContent = Math.floor(b1);
+  bonus2_value.textContent = Math.floor(b2);
+  totalAllFund.textContent = "รวมเงินทุนทั้งหมด: " + Math.floor(f1 + f2) + " บาท";
+}
+function calculate(f1adj = 0, f2adj = 0, balanced = false) {
+  const f1 = (parseFloat(fund1.value) || 0) + f1adj;
+  const f2 = (parseFloat(fund2.value) || 0) + f2adj;
+  const o1 = parseFloat(odd1.value) || 0;
+  const o2 = parseFloat(odd2.value) || 0;
+  const r1 = parseBonusRate(bonus1.value);
+  const r2 = parseBonusRate(bonus2.value);
+  const isL1 = bonus1.value.startsWith("-");
+  const isL2 = bonus2.value.startsWith("-");
+  const isI1 = isBonusIncluded(bonus1.value);
+  const isI2 = isBonusIncluded(bonus2.value);
+  const b1 = isI1 ? f1 * r1 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity);
+  const b2 = isI2 ? f2 * r2 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity);
+  const d1 = o1 < 1 ? Math.abs(Math.floor(f1 * o1 - f1)) : 0;
+  const d2 = o2 < 1 ? Math.abs(Math.floor(f2 * o2 - f2)) : 0;
+  const a1 = o1 < 1 ? f1 * 2 : isI1 ? (f1 + b1) * o1 : f1 * o1;
+  const a2 = o2 < 1 ? f2 * 2 : isI2 ? (f2 + b2) * o2 : f2 * o2;
+  const bw1 = (isL1 || isI1
+    ? (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))
+    : b1 + (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))) + d2;
+  const bw2 = (isL2 || isI2
+    ? (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))
+    : b2 + (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))) + d1;
+  const t1 = a1 + bw1;
+  const t2 = a2 + bw2;
+  const tf = f1 + f2;
+  const p1 = t1 - tf;
+  const p2 = t2 - tf;
+  result1_afterbet.textContent = Math.floor(a1);
+  result2_afterbet.textContent = Math.floor(a2);
+  result1_total.textContent = Math.floor(t1);
+  result2_total.textContent = Math.floor(t2);
+  profit1.textContent = Math.floor(p1);
+  profit2.textContent = Math.floor(p2);
+  profit1_balanced.textContent = balanced ? Math.floor(p1) : "-";
+  profit2_balanced.textContent = balanced ? Math.floor(p2) : "-";
+  diffNote1.textContent = o1 < 1 ? `ส่วนต่างน้ำติดลบ ${d1} บาท` : "";
+  diffNote2.textContent = o2 < 1 ? `ส่วนต่างน้ำติดลบ ${d2} บาท` : "";
+  updateBonusDisplay();
+  saveForm();
+}
+function suggestBalance() {
+  const p1 = parseFloat(profit1.textContent) || 0;
+  const p2 = parseFloat(profit2.textContent) || 0;
+  const move = Math.abs(p1 - p2) / 2;
+  calculate(p1 < p2 ? move : 0, p2 < p1 ? move : 0, true);
+  recommendation.textContent = `ควรเพิ่มเงินแทงที่ "${p1 > p2 ? name2.value || "ฝั่ง 2" : name1.value || "ฝั่ง 1"}" อีกประมาณ ${Math.floor(move)} บาท เพื่อให้กำไรใกล้เคียงกัน`;
+}
+function clearForm() {
+  fund1.value = "";
+  fund2.value = "";
+  odd1.value = "";
+  odd2.value = "";
+  bonus1.value = "0";
+  bonus2.value = "0";
+  [
+    "result1_afterbet", "result2_afterbet",
+    "result1_total", "result2_total",
+    "profit1", "profit2",
+    "profit1_balanced", "profit2_balanced",
+    "bonus1_value", "bonus2_value",
+    "totalAllFund", "recommendation",
+    "diffNote1", "diffNote2"
+  ].forEach(id => document.getElementById(id).textContent = "-");
+  saveForm();
+}
+function saveRecord() {
+  const record = {
+    name1: name1.value || "ฝั่ง 1",
+    name2: name2.value || "ฝั่ง 2",
+    fund1: fund1.value || "0",
+    fund2: fund2.value || "0",
+    odd1: odd1.value || "0",
+    odd2: odd2.value || "0",
+    profit1: profit1.textContent,
+    profit2: profit2.textContent,
+    pBal1: profit1_balanced.textContent,
+    pBal2: profit2_balanced.textContent,
+    timestamp: new Date().toLocaleString("th-TH")
+  };
+  const key = "savedRecords_" + currentProfile;
+  const records = JSON.parse(localStorage.getItem(key) || "[]");
+  records.unshift(record);
+  localStorage.setItem(key, JSON.stringify(records));
+  renderRecords();
+}
+function renderRecords() {
+  const key = "savedRecords_" + currentProfile;
+  const records = JSON.parse(localStorage.getItem(key) || "[]");
+  recordsList.innerHTML = "";
+  records.forEach((r, i) => {
+    const html = `
+      <div class="record">
+        <h4>📌 บันทึก: ${r.timestamp} | ${r.name1} vs ${r.name2}</h4>
+        <div><b>${r.name1}</b>: ทุน ${r.fund1} | ค่าน้ำ ${r.odd1} | กำไร ${r.profit1} | เฉลี่ย ${r.pBal1}</div>
+        <div><b>${r.name2}</b>: ทุน ${r.fund2} | ค่าน้ำ ${r.odd2} | กำไร ${r.profit2} | เฉลี่ย ${r.pBal2}</div>
+        <button onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
+      </div>`;
+    recordsList.insertAdjacentHTML("beforeend", html);
+  });
+}
+function deleteRecord(index) {
+  const key = "savedRecords_" + currentProfile;
+  let records = JSON.parse(localStorage.getItem(key) || "[]");
+  records.splice(index, 1);
+  localStorage.setItem(key, JSON.stringify(records));
+  renderRecords();
+}
+function clearSavedRecords() {
+  if (!confirm("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลที่บันทึกทั้งหมดของโปรไฟล์นี้?")) return;
+  localStorage.removeItem("savedRecords_" + currentProfile);
+  renderRecords();
+}
+window.onload = () => {
+  if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+  setProfile("1");
+};
+</script>
 </body>
 </html>
