@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>bet Calculator By Super</title>
   <style>
+    /* <<<--- CSS ตกแต่งทั้งหมด เหมือนของคุณ --->>> */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f0f4f8;
@@ -140,101 +141,109 @@
   </style>
 </head>
 <body>
+  <h2>bet Calculator By Super</h2>
 
-<h2>bet Calculator By Super</h2>
+  <div class="button-group">
+    <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
+  </div>
 
-<div class="button-group">
-  <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
-</div>
+  <div class="profile-buttons">
+    <button onclick="setProfile('1')" id="btnP1">1</button>
+    <button onclick="setProfile('2')" id="btnP2">2</button>
+    <button onclick="setProfile('3')" id="btnP3">3</button>
+  </div>
 
-<div class="profile-buttons">
-  <button onclick="setProfile('1')" id="btnP1">1</button>
-  <button onclick="setProfile('2')" id="btnP2">2</button>
-  <button onclick="setProfile('3')" id="btnP3">3</button>
-</div>
+  <div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
+    โปรไฟล์ที่: 1
+  </div>
 
-<div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
-  โปรไฟล์ที่: 1
-</div>
+  <form onsubmit="event.preventDefault(); calculate();">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ชื่อเว็บ</th>
+          <th>เงินทุน</th>
+          <th>โบนัส</th>
+          <th>ค่าน้ำ</th>
+          <th>ยอดเงินหลังแทง</th>
+          <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
+          <th>กำไร</th>
+          <th>กำไรหลังเฉลี่ย</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>❶</td>
+          <td><input id="name1" placeholder="เช่น sbobet" oninput="saveForm()" /></td>
+          <td><input type="number" id="fund1" oninput="saveForm()" /></td>
+          <td class="bonus-group">
+            <select id="bonus1" onchange="saveForm()">
+              <option value="0">ไม่มีโบนัส</option>
+              <option value="0.03">3%</option>
+              <option value="0.03inc">3% (รวมแทง)</option>
+              <option value="-0.05">ยอดเสีย 5%</option>
+              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
+              <option value="-0.5">ยอดเสีย 50%</option>
+            </select>
+            <div class="bonus-value" id="bonus1_value">-</div>
+          </td>
+          <td><input type="number" id="odd1" oninput="saveForm()" />
+            <div class="diff-note" id="diffNote1">-</div></td>
+          <td><span id="result1_afterbet">-</span></td>
+          <td><span id="result1_total">-</span></td>
+          <td><span id="profit1">-</span></td>
+          <td><span id="profit1_balanced">-</span></td>
+        </tr>
+        <tr>
+          <td>❷</td>
+          <td><input id="name2" placeholder="เช่น sanook" oninput="saveForm()" /></td>
+          <td><input type="number" id="fund2" oninput="saveForm()" /></td>
+          <td class="bonus-group">
+            <select id="bonus2" onchange="saveForm()">
+              <option value="0">ไม่มีโบนัส</option>
+              <option value="0.03">3%</option>
+              <option value="0.03inc">3% (รวมแทง)</option>
+              <option value="-0.05">ยอดเสีย 5%</option>
+              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
+              <option value="-0.5">ยอดเสีย 50%</option>
+            </select>
+            <div class="bonus-value" id="bonus2_value">-</div>
+          </td>
+          <td><input type="number" id="odd2" oninput="saveForm()" />
+            <div class="diff-note" id="diffNote2">-</div></td>
+          <td><span id="result2_afterbet">-</span></td>
+          <td><span id="result2_total">-</span></td>
+          <td><span id="profit2">-</span></td>
+          <td><span id="profit2_balanced">-</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
 
-<form onsubmit="event.preventDefault(); calculate();">
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>ชื่อเว็บ</th>
-        <th>เงินทุน</th>
-        <th>โบนัส</th>
-        <th>ค่าน้ำ</th>
-        <th>ยอดเงินหลังแทง</th>
-        <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
-        <th>กำไร</th>
-        <th>กำไรหลังเฉลี่ย</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>❶</td>
-        <td><input id="name1" placeholder="เช่น sbobet" oninput="saveForm()" /></td>
-        <td><input type="number" id="fund1" oninput="saveForm()" /></td>
-        <td class="bonus-group">
-          <select id="bonus1" onchange="saveForm()">
-            <option value="0">ไม่มีโบนัส</option>
-            <option value="0.03">3%</option>
-            <option value="0.03inc">3% (รวมแทง)</option>
-            <option value="-0.05">ยอดเสีย 5%</option>
-            <option value="-0.5">ยอดเสีย 50%</option>
-          </select>
-          <div class="bonus-value" id="bonus1_value">-</div>
-        </td>
-        <td><input type="number" id="odd1" oninput="saveForm()" />
-          <div class="diff-note" id="diffNote1">-</div></td>
-        <td><span id="result1_afterbet">-</span></td>
-        <td><span id="result1_total">-</span></td>
-        <td><span id="profit1">-</span></td>
-        <td><span id="profit1_balanced">-</span></td>
-      </tr>
-      <tr>
-        <td>❷</td>
-        <td><input id="name2" placeholder="เช่น sanook" oninput="saveForm()" /></td>
-        <td><input type="number" id="fund2" oninput="saveForm()" /></td>
-        <td class="bonus-group">
-          <select id="bonus2" onchange="saveForm()">
-            <option value="0">ไม่มีโบนัส</option>
-            <option value="0.03">3%</option>
-            <option value="0.03inc">3% (รวมแทง)</option>
-            <option value="-0.05">ยอดเสีย 5%</option>
-            <option value="-0.5">ยอดเสีย 50%</option>
-          </select>
-          <div class="bonus-value" id="bonus2_value">-</div>
-        </td>
-        <td><input type="number" id="odd2" oninput="saveForm()" />
-          <div class="diff-note" id="diffNote2">-</div></td>
-        <td><span id="result2_afterbet">-</span></td>
-        <td><span id="result2_total">-</span></td>
-        <td><span id="profit2">-</span></td>
-        <td><span id="profit2_balanced">-</span></td>
-      </tr>
-    </tbody>
-  </table>
-</form>
+  <div id="totalAllFund">รวมเงินทุนทั้งหมด: -</div>
 
-<div id="totalAllFund">รวมเงินทุนทั้งหมด: -</div>
+  <div class="button-group">
+    <button onclick="calculate()">คำนวณ</button>
+    <button onclick="suggestBalance()">เฉลี่ยกำไร</button>
+    <button onclick="saveRecord()">บันทึกข้อมูล</button>
+    <button onclick="clearForm()">Clear</button>
+    <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึกทั้งหมด</button>
+  </div>
 
-<div class="button-group">
-  <button onclick="calculate()">คำนวณ</button>
-  <button onclick="suggestBalance()">เฉลี่ยกำไร</button>
-  <button onclick="saveRecord()">บันทึกข้อมูล</button>
-  <button onclick="clearForm()">Clear</button>
-  <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึกทั้งหมด</button>
-</div>
+  <div id="recommendation">-</div>
 
-<div id="recommendation">-</div>
+  <div id="savedRecords">
+    <h3>📂 ข้อมูลที่บันทึกไว้</h3>
+    <div id="recordsList"></div>
+  </div>
 
-<div id="savedRecords">
-  <h3>📂 ข้อมูลที่บันทึกไว้</h3>
-  <div id="recordsList"></div>
-</div>
+  <script>
+    // ⚙️ ใส่ JavaScript ฟังก์ชันทั้งหมดจากโปรเจกต์เดิมของคุณได้เลย
+    // ไม่ต้องแก้ไขส่วนคำนวณ เพราะ parseFloat("-0.06") รองรับได้อยู่แล้ว
+  </script>
+</body>
+</html>
 
 <!-- ต่อส่วนที่ 2/2: JavaScript ฟังก์ชันเต็มในโพสต์ถัดไป -->
 
@@ -433,4 +442,3 @@ window.onload = () => {
 </script>
 </body>
 </html>
-
