@@ -2,203 +2,194 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>BET Calculator by Super V2 #5.22.68</title>
+  <title>bet Calculator By Super</title>
   <style>
-    :root {
-      --primary: #00b4d8;
-      --primary-dark: #0077b6;
-      --bg: #f0f8ff;
-      --text: #222;
-      --muted: #666;
-      --card: #fff;
-      --border: #d1ecf1;
-      --shadow: rgba(0, 0, 0, 0.1);
-      --thead-bg: #caf0f8;
-      --thead-text: #000;
-    }
-
-    body.dark-mode {
-      --primary: #90caf9;
-      --primary-dark: #2196f3;
-      --bg: #121212;
-      --text: #ffffff;
-      --muted: #aaa;
-      --card: #1e1e1e;
-      --border: #444;
-      --shadow: rgba(255, 255, 255, 0.05);
-      --thead-bg: #2a2a2a;
-      --thead-text: #ffffff;
-    }
-
+    /* <<<--- CSS ตกแต่งทั้งหมด เหมือนของคุณ --->>> */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 40px 20px;
-      transition: all 0.3s;
+      background: #f0f4f8;
+      padding: 30px;
+      color: #333;
     }
-
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    body.dark table, body.dark .record {
+      background: #1e1e1e;
+      border-color: #444;
+    }
+    body.dark th {
+      background-color: #333;
+      color: #fff;
+    }
+    body.dark td {
+      background: #1e1e1e;
+      color: #eee;
+    }
+    body.dark input, body.dark select {
+      background: #333;
+      color: #fff;
+      border: 1px solid #777;
+    }
+    body.dark .button-group button,
+    body.dark .profile-buttons button.active {
+      background: #2196f3;
+    }
     h2 {
       text-align: center;
-      color: var(--primary-dark);
-      margin-bottom: 20px;
+      color: #0077b6;
     }
-
-    .toggle-darkmode, .profile-buttons, .button-group {
+    .profile-buttons {
       text-align: center;
-      margin-bottom: 20px;
+      margin: 10px 0 20px;
     }
-
-    button {
-      padding: 10px 20px;
-      margin: 6px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      background: var(--primary-dark);
-      color: white;
-      cursor: pointer;
-    }
-
     .profile-buttons button {
-      width: 48px;
-      height: 48px;
+      padding: 8px 16px;
+      margin: 0 4px;
+      border: none;
       border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      background: #e0e0e0;
+      color: #333;
+      transition: 0.3s;
+    }
+    .profile-buttons button.active {
+      background: #00b4d8;
+      color: white;
       font-weight: bold;
     }
-
-    .profile-buttons button.active {
-      background: var(--primary);
-      transform: scale(1.05);
-    }
-
     table {
       width: 100%;
-      background: var(--card);
       border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 6px 16px var(--shadow);
-      margin-bottom: 30px;
     }
-
     th, td {
-      padding: 12px;
-      border: 1px solid var(--border);
+      border: 1px solid #ccc;
+      padding: 10px;
       text-align: center;
     }
-
     thead {
-      background: var(--thead-bg);
-      color: var(--thead-text);
+      background-color: #caf0f8;
     }
-
     input, select {
-      padding: 8px;
+      padding: 6px;
       width: 90%;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid #aaa;
-      background-color: var(--card);
-      color: var(--text);
     }
-
-    input::placeholder {
-      color: var(--muted);
-    }
-
     .bonus-group {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
     .bonus-value, .diff-note {
       font-size: 0.85em;
       margin-top: 4px;
-      color: #80cbc4;
+      color: #007700;
     }
-
     .diff-note {
-      color: #f44336;
+      color: #d32f2f;
     }
-
-    #profileTitle, #totalAllFund, #recommendation {
+    .button-group {
+      text-align: center;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #00b4d8;
+      color: white;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    #totalAllFund, #recommendation {
+      font-weight: bold;
       text-align: center;
       margin: 10px 0;
-      font-weight: bold;
     }
-
+    #savedRecords {
+      margin-top: 30px;
+      border-top: 2px solid #90caf9;
+      padding-top: 20px;
+    }
     .record {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 30px;
-      box-shadow: 0 6px 14px var(--shadow);
-      max-width: 1000px;
-      margin: auto;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-
-    .record-table {
-      width: 100%;
-      border-collapse: collapse;
+    .record h4 {
+      margin: 0 0 6px;
+      color: #0077b6;
     }
-
-    .record-table th, .record-table td {
-      padding: 10px;
-      border: 1px solid var(--border);
-    }
-
-    .delete-btn {
-      margin-top: 16px;
-      background: #e53935;
+    .record div {
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-  <h2>BET Calculator by Super V2 #5.22.68</h2>
+  <h2>bet Calculator By Super</h2>
 
-  <div class="toggle-darkmode">
-    <button onclick="toggleDarkMode()">โหมดมืด</button>
+  <div class="button-group">
+    <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
   </div>
 
   <div class="profile-buttons">
     <button onclick="setProfile('1')" id="btnP1">1</button>
     <button onclick="setProfile('2')" id="btnP2">2</button>
     <button onclick="setProfile('3')" id="btnP3">3</button>
-    <button onclick="setProfile('4')" id="btnP4">4</button>
-    <button onclick="setProfile('5')" id="btnP5">5</button>
-    <button onclick="setProfile('6')" id="btnP6">6</button>
   </div>
 
-  <div id="profileTitle">โปรไฟล์ที่: 1</div>
+  <div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
+    โปรไฟล์ที่: 1
+  </div>
 
   <form onsubmit="event.preventDefault(); calculate();">
     <table>
       <thead>
         <tr>
-          <th>#</th><th>ชื่อเว็บ</th><th>ทุน</th><th>โบนัส</th><th>ค่าน้ำ</th>
-          <th>หลังแทง</th><th>ได้+โบนัส</th><th>กำไร</th><th>เฉลี่ย</th>
+          <th>#</th>
+          <th>ชื่อเว็บ</th>
+          <th>เงินทุน</th>
+          <th>โบนัส</th>
+          <th>ค่าน้ำ</th>
+          <th>ยอดเงินหลังแทง</th>
+          <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
+          <th>กำไร</th>
+          <th>กำไรหลังเฉลี่ย</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>❶</td>
-          <td><input id="name1" placeholder="เช่น A" oninput="saveForm(); calculate();"></td>
-          <td><input type="number" id="fund1" oninput="saveForm(); calculate();"></td>
+          <td><input id="name1" placeholder="เช่น sbobet" oninput="saveForm()" /></td>
+          <td><input type="number" id="fund1" oninput="saveForm()" /></td>
           <td class="bonus-group">
-            <select id="bonus1" onchange="saveForm(); calculate();">
-              <option value="0">ไม่มี</option>
+            <select id="bonus1" onchange="saveForm()">
+              <option value="0">ไม่มีโบนัส</option>
               <option value="0.03">3%</option>
               <option value="0.03inc">3% (รวมแทง)</option>
               <option value="-0.05">ยอดเสีย 5%</option>
-              <option value="-0.06">ยอดเสีย 6%</option>
+              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
               <option value="-0.5">ยอดเสีย 50%</option>
             </select>
             <div class="bonus-value" id="bonus1_value">-</div>
           </td>
-          <td><input type="number" id="odd1" oninput="saveForm(); calculate();"><div class="diff-note" id="diffNote1">-</div></td>
+          <td><input type="number" id="odd1" oninput="saveForm()" />
+            <div class="diff-note" id="diffNote1">-</div></td>
           <td><span id="result1_afterbet">-</span></td>
           <td><span id="result1_total">-</span></td>
           <td><span id="profit1">-</span></td>
@@ -206,20 +197,21 @@
         </tr>
         <tr>
           <td>❷</td>
-          <td><input id="name2" placeholder="เช่น B" oninput="saveForm(); calculate();"></td>
-          <td><input type="number" id="fund2" oninput="saveForm(); calculate();"></td>
+          <td><input id="name2" placeholder="เช่น sanook" oninput="saveForm()" /></td>
+          <td><input type="number" id="fund2" oninput="saveForm()" /></td>
           <td class="bonus-group">
-            <select id="bonus2" onchange="saveForm(); calculate();">
-              <option value="0">ไม่มี</option>
+            <select id="bonus2" onchange="saveForm()">
+              <option value="0">ไม่มีโบนัส</option>
               <option value="0.03">3%</option>
               <option value="0.03inc">3% (รวมแทง)</option>
               <option value="-0.05">ยอดเสีย 5%</option>
-              <option value="-0.06">ยอดเสีย 6%</option>
+              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
               <option value="-0.5">ยอดเสีย 50%</option>
             </select>
             <div class="bonus-value" id="bonus2_value">-</div>
           </td>
-          <td><input type="number" id="odd2" oninput="saveForm(); calculate();"><div class="diff-note" id="diffNote2">-</div></td>
+          <td><input type="number" id="odd2" oninput="saveForm()" />
+            <div class="diff-note" id="diffNote2">-</div></td>
           <td><span id="result2_afterbet">-</span></td>
           <td><span id="result2_total">-</span></td>
           <td><span id="profit2">-</span></td>
@@ -229,192 +221,224 @@
     </table>
   </form>
 
-  <div id="totalAllFund">รวมทุนทั้งหมด: -</div>
+  <div id="totalAllFund">รวมเงินทุนทั้งหมด: -</div>
 
   <div class="button-group">
     <button onclick="calculate()">คำนวณ</button>
     <button onclick="suggestBalance()">เฉลี่ยกำไร</button>
     <button onclick="saveRecord()">บันทึกข้อมูล</button>
-    <button onclick="clearForm()">ล้าง</button>
-    <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึก</button>
+    <button onclick="clearForm()">Clear</button>
+    <button onclick="clearSavedRecords()">ล้างข้อมูลที่บันทึกทั้งหมด</button>
   </div>
 
   <div id="recommendation">-</div>
 
   <div id="savedRecords">
-    <h3>ข้อมูลที่บันทึกไว้</h3>
+    <h3>📂 ข้อมูลที่บันทึกไว้</h3>
     <div id="recordsList"></div>
   </div>
 
   <script>
-    let currentProfile = "1";
-
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-      const btn = document.querySelector(".toggle-darkmode button");
-      btn.textContent = document.body.classList.contains("dark-mode") ? "โหมดสว่าง" : "โหมดมืด";
-    }
-
-    function setProfile(id) {
-      currentProfile = id;
-      document.getElementById("profileTitle").textContent = "โปรไฟล์ที่: " + id;
-      for (let i = 1; i <= 6; i++) {
-        const btn = document.getElementById("btnP" + i);
-        if (btn) btn.classList.remove("active");
-      }
-      const selectedBtn = document.getElementById("btnP" + id);
-      if (selectedBtn) selectedBtn.classList.add("active");
-      loadForm();
-      renderRecords();
-    }
-
-    function parseBonusRate(val) {
-      return val === "0.03inc" ? 0.03 : parseFloat(val);
-    }
-
-    function isBonusIncluded(val) {
-      return val === "0.03inc";
-    }
-
-    function saveForm() {
-      const form = {
-        name1: name1.value, name2: name2.value,
-        fund1: fund1.value, fund2: fund2.value,
-        odd1: odd1.value, odd2: odd2.value,
-        bonus1: bonus1.value, bonus2: bonus2.value
-      };
-      localStorage.setItem("form_profile_" + currentProfile, JSON.stringify(form));
-    }
-
-    function loadForm() {
-      const saved = JSON.parse(localStorage.getItem("form_profile_" + currentProfile));
-      if (!saved) return;
-      for (let key in saved) {
-        const el = document.getElementById(key);
-        if (el) el.value = saved[key];
-      }
-      updateBonusDisplay();
-      calculate();
-    }
-
-    function updateBonusDisplay() {
-      const f1 = parseFloat(fund1.value) || 0;
-      const f2 = parseFloat(fund2.value) || 0;
-      const r1 = parseBonusRate(bonus1.value);
-      const r2 = parseBonusRate(bonus2.value);
-      const b1 = isBonusIncluded(bonus1.value) ? f1 * r1 : f1 * Math.abs(r1);
-      const b2 = isBonusIncluded(bonus2.value) ? f2 * r2 : f2 * Math.abs(r2);
-      bonus1_value.textContent = Math.floor(b1);
-      bonus2_value.textContent = Math.floor(b2);
-      totalAllFund.textContent = "รวมทุนทั้งหมด: " + Math.floor(f1 + f2) + " บาท";
-    }
-
-    function calculate(f1adj = 0, f2adj = 0, balanced = false) {
-      const f1 = (parseFloat(fund1.value) || 0) + f1adj;
-      const f2 = (parseFloat(fund2.value) || 0) + f2adj;
-      const o1 = parseFloat(odd1.value) || 0;
-      const o2 = parseFloat(odd2.value) || 0;
-      const r1 = parseBonusRate(bonus1.value);
-      const r2 = parseBonusRate(bonus2.value);
-      const isI1 = isBonusIncluded(bonus1.value);
-      const isI2 = isBonusIncluded(bonus2.value);
-      const b1 = isI1 ? f1 * r1 : f1 * Math.abs(r1);
-      const b2 = isI2 ? f2 * r2 : f2 * Math.abs(r2);
-      const a1 = isI1 ? (f1 + b1) * o1 : f1 * o1;
-      const a2 = isI2 ? (f2 + b2) * o2 : f2 * o2;
-      const t1 = a1 + b2;
-      const t2 = a2 + b1;
-      const tf = f1 + f2;
-      const p1 = t1 - tf;
-      const p2 = t2 - tf;
-      result1_afterbet.textContent = Math.floor(a1);
-      result2_afterbet.textContent = Math.floor(a2);
-      result1_total.textContent = Math.floor(t1);
-      result2_total.textContent = Math.floor(t2);
-      profit1.textContent = Math.floor(p1);
-      profit2.textContent = Math.floor(p2);
-      profit1_balanced.textContent = balanced ? Math.floor(p1) : "-";
-      profit2_balanced.textContent = balanced ? Math.floor(p2) : "-";
-      updateBonusDisplay();
-      saveForm();
-    }
-
-    function suggestBalance() {
-      const p1 = parseFloat(profit1.textContent) || 0;
-      const p2 = parseFloat(profit2.textContent) || 0;
-      const move = Math.abs(p1 - p2) / 2;
-      calculate(p1 < p2 ? move : 0, p2 < p1 ? move : 0, true);
-      recommendation.textContent = `ควรเพิ่มเงินแทงที่ "${p1 > p2 ? name2.value : name1.value}" ประมาณ ${Math.floor(move)} บาท`;
-    }
-
-    function clearForm() {
-      ["name1","name2","fund1","fund2","odd1","odd2"].forEach(id => document.getElementById(id).value = "");
-      bonus1.value = "0";
-      bonus2.value = "0";
-      ["result1_afterbet","result2_afterbet","result1_total","result2_total","profit1","profit2","profit1_balanced","profit2_balanced","bonus1_value","bonus2_value","recommendation"].forEach(id => document.getElementById(id).textContent = "-");
-      totalAllFund.textContent = "รวมทุนทั้งหมด: -";
-      saveForm();
-    }
-
-    function saveRecord() {
-      const record = {
-        timestamp: new Date().toLocaleString("th-TH"),
-        name1: name1.value, fund1: fund1.value, bonus1: bonus1_value.textContent, odd1: odd1.value,
-        afterbet1: result1_afterbet.textContent, total1: result1_total.textContent,
-        profit1: profit1.textContent, balanced1: profit1_balanced.textContent,
-        name2: name2.value, fund2: fund2.value, bonus2: bonus2_value.textContent, odd2: odd2.value,
-        afterbet2: result2_afterbet.textContent, total2: result2_total.textContent,
-        profit2: profit2.textContent, balanced2: profit2_balanced.textContent
-      };
-      const key = "savedRecords_" + currentProfile;
-      const records = JSON.parse(localStorage.getItem(key) || "[]");
-      records.unshift(record);
-      localStorage.setItem(key, JSON.stringify(records));
-      renderRecords();
-    }
-
-    function renderRecords() {
-      const key = "savedRecords_" + currentProfile;
-      const records = JSON.parse(localStorage.getItem(key) || "[]");
-      const container = document.getElementById("recordsList");
-      container.innerHTML = "";
-      records.forEach((r, i) => {
-        const html = `
-        <div class="record">
-          <h4>📌 บันทึก: ${r.timestamp}</h4>
-          <table class="record-table">
-            <thead>
-              <tr><th>ฝั่ง</th><th>ทุน</th><th>โบนัส</th><th>ค่าน้ำ</th><th>หลังแทง</th><th>ได้+โบนัส</th><th>กำไร</th><th>เฉลี่ย</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>${r.name1}</td><td>${r.fund1}</td><td>${r.bonus1}</td><td>${r.odd1}</td><td>${r.afterbet1}</td><td>${r.total1}</td><td>${r.profit1}</td><td>${r.balanced1}</td></tr>
-              <tr><td>${r.name2}</td><td>${r.fund2}</td><td>${r.bonus2}</td><td>${r.odd2}</td><td>${r.afterbet2}</td><td>${r.total2}</td><td>${r.profit2}</td><td>${r.balanced2}</td></tr>
-            </tbody>
-          </table>
-          <button class="delete-btn" onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
-        </div>`;
-        container.insertAdjacentHTML("beforeend", html);
-      });
-    }
-
-    function deleteRecord(index) {
-      const key = "savedRecords_" + currentProfile;
-      const records = JSON.parse(localStorage.getItem(key) || "[]");
-      records.splice(index, 1);
-      localStorage.setItem(key, JSON.stringify(records));
-      renderRecords();
-    }
-
-    function clearSavedRecords() {
-      if (confirm("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลที่บันทึกทั้งหมดของโปรไฟล์นี้?")) {
-        localStorage.removeItem("savedRecords_" + currentProfile);
-        renderRecords();
-      }
-    }
-
-    window.onload = () => {
-      setProfile("1");
-    };
+    // ⚙️ ใส่ JavaScript ฟังก์ชันทั้งหมดจากโปรเจกต์เดิมของคุณได้เลย
+    // ไม่ต้องแก้ไขส่วนคำนวณ เพราะ parseFloat("-0.06") รองรับได้อยู่แล้ว
   </script>
+</body>
+</html>
+
+<!-- ต่อส่วนที่ 2/2: JavaScript ฟังก์ชันเต็มในโพสต์ถัดไป -->
+
+
+<script>
+let currentProfile = "1";
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+}
+
+function setProfile(id) {
+  currentProfile = id;
+  document.getElementById("profileTitle").textContent = "โปรไฟล์ที่: " + id;
+  ["btnP1", "btnP2", "btnP3"].forEach(btn => document.getElementById(btn).classList.remove("active"));
+  document.getElementById("btnP" + id).classList.add("active");
+  loadForm();
+  renderRecords();
+}
+
+function parseBonusRate(val) {
+  return val === "0.03inc" ? 0.03 : parseFloat(val);
+}
+function isBonusIncluded(val) {
+  return val === "0.03inc";
+}
+
+function saveForm() {
+  const form = {
+    name1: name1.value, name2: name2.value,
+    fund1: fund1.value, fund2: fund2.value,
+    odd1: odd1.value, odd2: odd2.value,
+    bonus1: bonus1.value, bonus2: bonus2.value
+  };
+  localStorage.setItem("form_profile_" + currentProfile, JSON.stringify(form));
+}
+
+function loadForm() {
+  const saved = JSON.parse(localStorage.getItem("form_profile_" + currentProfile));
+  if (!saved) return;
+  for (let key in saved) {
+    const el = document.getElementById(key);
+    if (el) el.value = saved[key];
+  }
+  updateBonusDisplay();
+}
+
+function updateBonusDisplay() {
+  const f1 = parseFloat(fund1.value) || 0;
+  const f2 = parseFloat(fund2.value) || 0;
+  const r1 = parseBonusRate(bonus1.value);
+  const r2 = parseBonusRate(bonus2.value);
+  const cap1 = bonus1.value === "-0.5" ? 2888 : Infinity;
+  const cap2 = bonus2.value === "-0.5" ? 2888 : Infinity;
+  const b1 = isBonusIncluded(bonus1.value) ? f1 * r1 : Math.min(f1 * Math.abs(r1), cap1);
+  const b2 = isBonusIncluded(bonus2.value) ? f2 * r2 : Math.min(f2 * Math.abs(r2), cap2);
+  bonus1_value.textContent = Math.floor(b1);
+  bonus2_value.textContent = Math.floor(b2);
+  totalAllFund.textContent = "รวมเงินทุนทั้งหมด: " + Math.floor(f1 + f2) + " บาท";
+}
+
+function calculate(f1adj = 0, f2adj = 0, balanced = false) {
+  const f1 = (parseFloat(fund1.value) || 0) + f1adj;
+  const f2 = (parseFloat(fund2.value) || 0) + f2adj;
+  const o1 = parseFloat(odd1.value) || 0;
+  const o2 = parseFloat(odd2.value) || 0;
+  const r1 = parseBonusRate(bonus1.value);
+  const r2 = parseBonusRate(bonus2.value);
+  const isL1 = bonus1.value.startsWith("-");
+  const isL2 = bonus2.value.startsWith("-");
+  const isI1 = isBonusIncluded(bonus1.value);
+  const isI2 = isBonusIncluded(bonus2.value);
+  const b1 = isI1 ? f1 * r1 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity);
+  const b2 = isI2 ? f2 * r2 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity);
+  const d1 = o1 < 1 ? Math.abs(Math.floor(f1 * o1 - f1)) : 0;
+  const d2 = o2 < 1 ? Math.abs(Math.floor(f2 * o2 - f2)) : 0;
+  const a1 = o1 < 1 ? f1 * 2 : isI1 ? (f1 + b1) * o1 : f1 * o1;
+  const a2 = o2 < 1 ? f2 * 2 : isI2 ? (f2 + b2) * o2 : f2 * o2;
+  const bw1 = (isL1 || isI1
+    ? (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))
+    : b1 + (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))) + d2;
+  const bw2 = (isL2 || isI2
+    ? (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))
+    : b2 + (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))) + d1;
+  const t1 = a1 + bw1;
+  const t2 = a2 + bw2;
+  const tf = f1 + f2;
+  const p1 = t1 - tf;
+  const p2 = t2 - tf;
+  result1_afterbet.textContent = Math.floor(a1);
+  result2_afterbet.textContent = Math.floor(a2);
+  result1_total.textContent = Math.floor(t1);
+  result2_total.textContent = Math.floor(t2);
+  profit1.textContent = Math.floor(p1);
+  profit2.textContent = Math.floor(p2);
+  profit1_balanced.textContent = balanced ? Math.floor(p1) : "-";
+  profit2_balanced.textContent = balanced ? Math.floor(p2) : "-";
+  diffNote1.textContent = o1 < 1 ? `ส่วนต่างน้ำติดลบ ${d1} บาท` : "";
+  diffNote2.textContent = o2 < 1 ? `ส่วนต่างน้ำติดลบ ${d2} บาท` : "";
+  updateBonusDisplay();
+  saveForm();
+}
+
+function suggestBalance() {
+  const p1 = parseFloat(profit1.textContent) || 0;
+  const p2 = parseFloat(profit2.textContent) || 0;
+  const move = Math.abs(p1 - p2) / 2;
+  calculate(p1 < p2 ? move : 0, p2 < p1 ? move : 0, true);
+  recommendation.textContent = `ควรเพิ่มเงินแทงที่ "${p1 > p2 ? name2.value || "ฝั่ง 2" : name1.value || "ฝั่ง 1"}" อีกประมาณ ${Math.floor(move)} บาท เพื่อให้กำไรใกล้เคียงกัน`;
+}
+
+function clearForm() {
+  fund1.value = "";
+  fund2.value = "";
+  odd1.value = "";
+  odd2.value = "";
+  bonus1.value = "0";
+  bonus2.value = "0";
+  [
+    "result1_afterbet", "result2_afterbet",
+    "result1_total", "result2_total",
+    "profit1", "profit2",
+    "profit1_balanced", "profit2_balanced",
+    "bonus1_value", "bonus2_value",
+    "totalAllFund", "recommendation",
+    "diffNote1", "diffNote2"
+  ].forEach(id => document.getElementById(id).textContent = "-");
+  saveForm();
+}
+
+function saveRecord() {
+  const record = {
+    timestamp: new Date().toLocaleString("th-TH"),
+    name1: name1.value || "ฝั่ง 1",
+    fund1: fund1.value || "0",
+    bonus1: bonus1_value.textContent || "0",
+    odd1: odd1.value || "0",
+    afterbet1: result1_afterbet.textContent || "0",
+    total1: result1_total.textContent || "0",
+    profit1: profit1.textContent || "0",
+    balanced1: profit1_balanced.textContent || "0",
+    name2: name2.value || "ฝั่ง 2",
+    fund2: fund2.value || "0",
+    bonus2: bonus2_value.textContent || "0",
+    odd2: odd2.value || "0",
+    afterbet2: result2_afterbet.textContent || "0",
+    total2: result2_total.textContent || "0",
+    profit2: profit2.textContent || "0",
+    balanced2: profit2_balanced.textContent || "0"
+  };
+
+  const key = "savedRecords_" + currentProfile;
+  const records = JSON.parse(localStorage.getItem(key) || "[]");
+  records.unshift(record);
+  localStorage.setItem(key, JSON.stringify(records));
+  renderRecords();
+}
+
+function renderRecords() {
+  const key = "savedRecords_" + currentProfile;
+  const records = JSON.parse(localStorage.getItem(key) || "[]");
+  recordsList.innerHTML = "";
+  records.forEach((r, i) => {
+    const html = `
+      <div class="record">
+        <h4>📌 บันทึก: ${r.timestamp}</h4>
+        <div><b>${r.name1}</b> | ทุน: ${r.fund1} | โบนัส: ${r.bonus1} | ค่าน้ำ: ${r.odd1}<br>
+        หลังแทง: ${r.afterbet1} | ได้+โบนัส: ${r.total1} | กำไร: ${r.profit1} | เฉลี่ย: ${r.balanced1}</div>
+        <div><b>${r.name2}</b> | ทุน: ${r.fund2} | โบนัส: ${r.bonus2} | ค่าน้ำ: ${r.odd2}<br>
+        หลังแทง: ${r.afterbet2} | ได้+โบนัส: ${r.total2} | กำไร: ${r.profit2} | เฉลี่ย: ${r.balanced2}</div>
+        <button onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
+      </div>`;
+    recordsList.insertAdjacentHTML("beforeend", html);
+  });
+}
+
+function deleteRecord(index) {
+  const key = "savedRecords_" + currentProfile;
+  let records = JSON.parse(localStorage.getItem(key) || "[]");
+  records.splice(index, 1);
+  localStorage.setItem(key, JSON.stringify(records));
+  renderRecords();
+}
+
+function clearSavedRecords() {
+  if (!confirm("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลที่บันทึกทั้งหมดของโปรไฟล์นี้?")) return;
+  localStorage.removeItem("savedRecords_" + currentProfile);
+  renderRecords();
+}
+
+window.onload = () => {
+  if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+  setProfile("1");
+};
+</script>
 </body>
 </html>
