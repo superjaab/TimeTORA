@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>bet Calculator By Super</title>
   <style>
-    /* <<<--- CSS ตกแต่งทั้งหมด เหมือนของคุณ --->>> */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f0f4f8;
@@ -15,30 +14,49 @@
       background: #121212;
       color: #eee;
     }
-    body.dark table, body.dark .record {
-      background: #1e1e1e;
-      border-color: #444;
-    }
-    body.dark th {
-      background-color: #333;
-      color: #fff;
-    }
-    body.dark td {
-      background: #1e1e1e;
-      color: #eee;
-    }
-    body.dark input, body.dark select {
-      background: #333;
-      color: #fff;
-      border: 1px solid #777;
-    }
-    body.dark .button-group button,
-    body.dark .profile-buttons button.active {
-      background: #2196f3;
-    }
     h2 {
       text-align: center;
       color: #0077b6;
+    }
+    .button-group {
+      text-align: center;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #00b4d8;
+      color: white;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    input, select {
+      padding: 6px;
+      width: 90%;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    thead {
+      background-color: #caf0f8;
     }
     .profile-buttons {
       text-align: center;
@@ -60,29 +78,6 @@
       color: white;
       font-weight: bold;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-    }
-    thead {
-      background-color: #caf0f8;
-    }
-    input, select {
-      padding: 6px;
-      width: 90%;
-      border-radius: 6px;
-      border: 1px solid #aaa;
-    }
     .bonus-group {
       display: flex;
       flex-direction: column;
@@ -96,23 +91,6 @@
     .diff-note {
       color: #d32f2f;
     }
-    .button-group {
-      text-align: center;
-      margin: 20px 0;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
-      background: #00b4d8;
-      color: white;
-      font-size: 16px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0077b6;
-    }
     #totalAllFund, #recommendation {
       font-weight: bold;
       text-align: center;
@@ -123,25 +101,33 @@
       border-top: 2px solid #90caf9;
       padding-top: 20px;
     }
-    .record {
+    .record-card {
       background: #ffffff;
-      border: 1px solid #ccc;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #cce7f6;
     }
-    .record h4 {
-      margin: 0 0 6px;
+    .record-card h4 {
+      margin: 0 0 15px;
       color: #0077b6;
     }
-    .record div {
-      margin-top: 4px;
+    .delete-btn {
+      background: #d32f2f;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .delete-btn:hover {
+      background: #b71c1c;
     }
   </style>
 </head>
 <body>
-  <h2>bet Calculator By Super</h2>
+  <h2>bet Calculator By Super #22.5.68</h2>
 
   <div class="button-group">
     <button onclick="toggleDarkMode()">🌓 โหมดกลางคืน / สว่าง</button>
@@ -151,13 +137,16 @@
     <button onclick="setProfile('1')" id="btnP1">1</button>
     <button onclick="setProfile('2')" id="btnP2">2</button>
     <button onclick="setProfile('3')" id="btnP3">3</button>
+    <button onclick="setProfile('4')" id="btnP4">4</button>
+    <button onclick="setProfile('5')" id="btnP5">5</button>
+    <button onclick="setProfile('6')" id="btnP6">6</button>
   </div>
 
   <div id="profileTitle" style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:10px;">
     โปรไฟล์ที่: 1
   </div>
 
-  <form onsubmit="event.preventDefault(); calculate();">
+  <form>
     <table>
       <thead>
         <tr>
@@ -166,10 +155,10 @@
           <th>เงินทุน</th>
           <th>โบนัส</th>
           <th>ค่าน้ำ</th>
-          <th>ยอดเงินหลังแทง</th>
-          <th>ยอดเงินที่ได้ + โบนัส(อีกฝั่ง)</th>
+          <th>หลังแทง</th>
+          <th>ได้+โบนัส(อีกฝั่ง)</th>
           <th>กำไร</th>
-          <th>กำไรหลังเฉลี่ย</th>
+          <th>เฉลี่ย</th>
         </tr>
       </thead>
       <tbody>
@@ -183,7 +172,7 @@
               <option value="0.03">3%</option>
               <option value="0.03inc">3% (รวมแทง)</option>
               <option value="-0.05">ยอดเสีย 5%</option>
-              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
+              <option value="-0.06">ยอดเสีย 6%</option>
               <option value="-0.5">ยอดเสีย 50%</option>
             </select>
             <div class="bonus-value" id="bonus1_value">-</div>
@@ -205,7 +194,7 @@
               <option value="0.03">3%</option>
               <option value="0.03inc">3% (รวมแทง)</option>
               <option value="-0.05">ยอดเสีย 5%</option>
-              <option value="-0.06">ยอดเสีย 6%</option> <!-- ✅ -->
+              <option value="-0.06">ยอดเสีย 6%</option>
               <option value="-0.5">ยอดเสีย 50%</option>
             </select>
             <div class="bonus-value" id="bonus2_value">-</div>
@@ -237,19 +226,9 @@
     <h3>📂 ข้อมูลที่บันทึกไว้</h3>
     <div id="recordsList"></div>
   </div>
-
-  <script>
-    // ⚙️ ใส่ JavaScript ฟังก์ชันทั้งหมดจากโปรเจกต์เดิมของคุณได้เลย
-    // ไม่ต้องแก้ไขส่วนคำนวณ เพราะ parseFloat("-0.06") รองรับได้อยู่แล้ว
-  </script>
-</body>
-</html>
-
-<!-- ต่อส่วนที่ 2/2: JavaScript ฟังก์ชันเต็มในโพสต์ถัดไป -->
-
-
 <script>
 let currentProfile = "1";
+let calcTimer;
 
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
@@ -259,7 +238,9 @@ function toggleDarkMode() {
 function setProfile(id) {
   currentProfile = id;
   document.getElementById("profileTitle").textContent = "โปรไฟล์ที่: " + id;
-  ["btnP1", "btnP2", "btnP3"].forEach(btn => document.getElementById(btn).classList.remove("active"));
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById("btnP" + i).classList.remove("active");
+  }
   document.getElementById("btnP" + id).classList.add("active");
   loadForm();
   renderRecords();
@@ -280,6 +261,8 @@ function saveForm() {
     bonus1: bonus1.value, bonus2: bonus2.value
   };
   localStorage.setItem("form_profile_" + currentProfile, JSON.stringify(form));
+  clearTimeout(calcTimer);
+  calcTimer = setTimeout(() => calculate(), 100);
 }
 
 function loadForm() {
@@ -290,6 +273,7 @@ function loadForm() {
     if (el) el.value = saved[key];
   }
   updateBonusDisplay();
+  calculate();
 }
 
 function updateBonusDisplay() {
@@ -323,12 +307,8 @@ function calculate(f1adj = 0, f2adj = 0, balanced = false) {
   const d2 = o2 < 1 ? Math.abs(Math.floor(f2 * o2 - f2)) : 0;
   const a1 = o1 < 1 ? f1 * 2 : isI1 ? (f1 + b1) * o1 : f1 * o1;
   const a2 = o2 < 1 ? f2 * 2 : isI2 ? (f2 + b2) * o2 : f2 * o2;
-  const bw1 = (isL1 || isI1
-    ? (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))
-    : b1 + (bonus2.value === "0.03inc" ? 0 : Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity))) + d2;
-  const bw2 = (isL2 || isI2
-    ? (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))
-    : b2 + (bonus1.value === "0.03inc" ? 0 : Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity))) + d1;
+  const bw1 = (isL1 || isI1 ? Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity) : b1 + Math.min(f2 * Math.abs(r2), bonus2.value === "-0.5" ? 2888 : Infinity)) + d2;
+  const bw2 = (isL2 || isI2 ? Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity) : b2 + Math.min(f1 * Math.abs(r1), bonus1.value === "-0.5" ? 2888 : Infinity)) + d1;
   const t1 = a1 + bw1;
   const t2 = a2 + bw2;
   const tf = f1 + f2;
@@ -345,7 +325,6 @@ function calculate(f1adj = 0, f2adj = 0, balanced = false) {
   diffNote1.textContent = o1 < 1 ? `ส่วนต่างน้ำติดลบ ${d1} บาท` : "";
   diffNote2.textContent = o2 < 1 ? `ส่วนต่างน้ำติดลบ ${d2} บาท` : "";
   updateBonusDisplay();
-  saveForm();
 }
 
 function suggestBalance() {
@@ -407,17 +386,40 @@ function renderRecords() {
   const key = "savedRecords_" + currentProfile;
   const records = JSON.parse(localStorage.getItem(key) || "[]");
   recordsList.innerHTML = "";
+
+  if (records.length === 0) {
+    recordsList.innerHTML = "<p style='text-align:center'>ไม่มีข้อมูล</p>";
+    return;
+  }
+
   records.forEach((r, i) => {
     const html = `
-      <div class="record">
+      <div class="record-card">
         <h4>📌 บันทึก: ${r.timestamp}</h4>
-        <div><b>${r.name1}</b> | ทุน: ${r.fund1} | โบนัส: ${r.bonus1} | ค่าน้ำ: ${r.odd1}<br>
-        หลังแทง: ${r.afterbet1} | ได้+โบนัส: ${r.total1} | กำไร: ${r.profit1} | เฉลี่ย: ${r.balanced1}</div>
-        <div><b>${r.name2}</b> | ทุน: ${r.fund2} | โบนัส: ${r.bonus2} | ค่าน้ำ: ${r.odd2}<br>
-        หลังแทง: ${r.afterbet2} | ได้+โบนัส: ${r.total2} | กำไร: ${r.profit2} | เฉลี่ย: ${r.balanced2}</div>
-        <button onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
-      </div>`;
-    recordsList.insertAdjacentHTML("beforeend", html);
+        <table style="width:100%; border-collapse:collapse;">
+          <thead style="background:#caf0f8;">
+            <tr>
+              <th>ฝั่ง</th><th>ทุน</th><th>โบนัส</th><th>ค่าน้ำ</th>
+              <th>หลังแทง</th><th>ได้+โบนัส</th><th>กำไร</th><th>เฉลี่ย</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${r.name1}</td><td>${r.fund1}</td><td>${r.bonus1}</td><td>${r.odd1}</td>
+              <td>${r.afterbet1}</td><td>${r.total1}</td><td>${r.profit1}</td><td>${r.balanced1}</td>
+            </tr>
+            <tr>
+              <td>${r.name2}</td><td>${r.fund2}</td><td>${r.bonus2}</td><td>${r.odd2}</td>
+              <td>${r.afterbet2}</td><td>${r.total2}</td><td>${r.profit2}</td><td>${r.balanced2}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align:right; margin-top:10px;">
+          <button class="delete-btn" onclick="deleteRecord(${i})">🗑️ ลบข้อมูลนี้</button>
+        </div>
+      </div>
+    `;
+    recordsList.insertAdjacentHTML('beforeend', html);
   });
 }
 
